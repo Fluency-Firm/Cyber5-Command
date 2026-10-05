@@ -26,7 +26,10 @@ Slide types and their extra keys:
   twobars  "left": {"title": "...", "categories": [...], "values": [...]},
            "right": {...}, "unit": "%"
   heatmap  "rows": [...], "cols": [...], "values": [[...], ...], "outline": [[row, col], ...]
-  table    "header": [...], "rows": [[...], ...], "widths": [fractions summing to about 1],
+  lines    "categories": [...], "series": [{"name": "Actual", "values": [...], "dashed": false}, ...] (1–3),
+           "unit": "$", "ticks": label every Nth category (default 1),
+           "shade": [{"from": i, "to": j, "label": "..."}]   # e.g. a delivery gap
+  table   "header": [...], "rows": [[...], ...], "widths": [fractions summing to about 1],
            "footnote": "optional line under the table"
 Numbers must be the same ones shown in chat. This script never computes findings.
 """
@@ -39,6 +42,7 @@ def main():
     preview = sys.argv[sys.argv.index('--preview') + 1] if '--preview' in sys.argv else None
     import matplotlib; matplotlib.use('Agg')
     import matplotlib.pyplot as plt
+    import matplotlib.ticker
     from matplotlib.backends.backend_pdf import PdfPages
     from matplotlib.patches import Rectangle
     import numpy as np
@@ -112,6 +116,20 @@ def main():
                         ax.text(c, r, f'{M[r, c]:.0f}', ha='center', va='center', fontsize=9, color='white' if M[r, c] > hi * 0.6 else INK)
                 for r, c in s.get('outline', []): ax.add_patch(Rectangle((c - 0.5, r - 0.5), 1, 1, fill=False, ec=TONE['bad'], lw=2))
                 ax.set_yticks(range(len(s['rows'])), s['rows']); ax.set_xticks(range(len(s['cols'])), s['cols']); ax.tick_params(labelsize=11)
+            elif t == 'lines':
+                ax = f.add_axes([0.09, 0.14, 0.80, 0.54]); cats = s['categories']; x = np.arange(len(cats)); u = s.get('unit', '')
+                fmt = lambda v: f'${v:,.0f}' if u == '$' else f'{v:,.0f}{u}'
+                for sh in s.get('shade', []):
+                    ax.axvspan(sh['from'] - 0.5, sh['to'] + 0.5, color=TONE['bad'], alpha=0.12, lw=0)
+                    ax.text((sh['from'] + sh['to']) / 2, 1.01, esc(sh.get('label', '')), transform=ax.get_xaxis_transform(), ha='center', va='bottom', fontsize=10, color=TONE['bad'])
+                cl = [ACC, MUTED, ACC2]
+                for k, se in enumerate(s['series'][:3]):
+                    ax.plot(x, se['values'], color=cl[k], lw=2.4 if k == 0 else 1.8, ls='--' if se.get('dashed') else '-', label=esc(se['name']))
+                    ax.annotate(esc(fmt(se['values'][-1])), (x[-1], se['values'][-1]), xytext=(6, 0), textcoords='offset points', va='center', fontsize=11, color=cl[k], weight='bold', annotation_clip=False)
+                n = int(s.get('ticks', 1)); ax.set_xticks(x[::n], [esc(c) for c in cats[::n]]); ax.tick_params(labelsize=10)
+                ax.yaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda v, p: esc(f'${v/1000:,.0f}K' if u == '$' else f'{v:,.0f}{u}')))
+                ax.set_xlim(-0.5, len(cats) - 0.5); clean(ax, True); ax.grid(axis='y', color=GRID, lw=0.8)
+                ax.legend(frameon=False, fontsize=11, loc='upper left')
             elif t == 'table':
                 widths = s['widths']; fs = 11
                 chars = [max(8, int(w * 118)) for w in widths]

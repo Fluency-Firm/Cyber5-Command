@@ -97,3 +97,7 @@ Every number lives in `config/tuned-values.md` with a neutral default. To overri
 - Purchases and ROAS are Meta-attributed.
 - Stock comes from the catalog's in-stock / out-of-stock flag; there are no unit counts.
 - Ads that can't be matched to products are reported as Unmapped, never counted as dead spend.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

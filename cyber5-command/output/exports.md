@@ -32,7 +32,7 @@ A short PDF, 16:9, one idea per slide, at most 6 slides. Charts are drawn from t
 | --- | --- |
 | Ready | 1 Cover: account, grade, days to Cyber5 · 2 Scorecard: five categories as bars with the grade line · 3 Top fixes: the 5 earliest do-bys with owners · 4 Meta's own suggestions (marked not graded) |
 | Plan | 1 Cover: basis and window · 2 Last year by day: spend share vs purchase share · 3 Day × hour heatmap of purchases with delivery gaps outlined · 4 This year's day and daypart plan · 5 Budget guard and creative plan |
-| Review | 1 Cover: what the skill would have caught · 2 Scorecard: catches with lead time and purchases still ahead · 3 Burn-down over the window · 4 Fixes for this year's plan |
+| Review | 1 Cover: what the skill would have caught · 2 Scorecard: catches with lead time and purchases still ahead · 3 Burn-down over the window (`lines`: cumulative actual vs plan, delivery gaps shaded) · 4 Fixes for this year's plan |
 
 Build it with `output/deck.py`. Write a JSON spec of the slides (format in the script's docstring), then run `python output/deck.py spec.json out.pdf --preview previews/`. Use only the slide types the script supports, so every deck looks the same in every agency. If Python or its plotting libraries can't run, skip the deck and say so in one line.
 
