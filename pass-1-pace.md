@@ -1,0 +1,16 @@
+# Pass 1 — Pace against the plan
+
+The plan is the forecast for days that haven't happened. Hourly data only estimates how today ends.
+
+1. **Plan per entity.** Day share × `total_budget` × campaign share, spread across hours with the C5PLAN hourly curve. Ad-set-budget (ABO) campaigns split their share across ad sets by last-7-day spend.
+2. **Pull spend.** `ads_get_ad_entities` at the budget level, `time_increment: "1"`, for the window so far; plus today and the most recent comparable day with `hourly_stats_aggregated_by_advertiser_time_zone`. Request only `id, amount_spent, omni_purchase`, and pull at most 8 entities per hourly call (see `shared/meta-tool-notes.md`).
+3. **Classify** each entity Steady (daily spend within `pace_tolerance` of its plan or prior 7-day average) or Peak (day-to-day swings above that). Steady entities are projected flat.
+4. **Today's finish** from spend so far ÷ the share of the day the entity had spent by the same minute on its most recent comparable day (a peak day for Black Friday and Cyber Monday, the previous day otherwise). Use the entity's own shape, never the plan's curve: an international campaign spends evenly across US hours. Fall back to the C5PLAN hourly curve only when no comparable day exists. Before `range_until_hour` on a peak day, show a range of ± `finish_range_pct`.
+5. **Not started.** An entity that has spent $0 today, and that the plan says should be spending, is **Not started** until its `start_hour` passes (default 0). After that it is Behind.
+6. **Stalled.** An entity that spent earlier today but has spent under `min_hourly_spend` for `stall_hours` or more consecutive hours, while the plan says it should spend, is **Stalled**. This is the most urgent flag in the headline. It catches a mid-day or overnight outage that Not started misses (in testing, a Cyber Monday outage was found 6 hours earlier this way).
+7. **Early cap-out.** If today's finish is above `cap_out_factor` × daily budget, name the hour the budget runs out on the comparable-day shape. For ABO campaigns, sum the active ad-set budgets.
+8. **Projected window finish** = spend on completed days + today's finish + the plan for the remaining days.
+9. **Pace status** compares the projected window finish with the window plan: Ahead (over by more than `pace_tolerance`), Behind (under by more than it), On pace. Not started and Stalled override it. Show **today's finish vs today's plan** as a separate column; it is a signal, not the status.
+10. **Efficiency status** with `shared/comparison-groups.md`: Efficient, Marginal, Inefficient.
+11. **Unstable:** hourly spend or results breaking sharply from the entity's own recent hours. Unstable entities can't receive money this check-in. `ads_insights_anomaly_signal` may be added as an extra check.
+12. **Recheck last moves.** For each receiver in the C5LOG `recheck` line, say whether it held its efficiency after the move. Average ROAS flatters small receivers.
