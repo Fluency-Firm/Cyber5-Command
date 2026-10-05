@@ -71,8 +71,13 @@ Each stage file has the same five parts: **Inputs, Loads, Process, Outputs, Neve
 
 ## Samples
 
-`samples/` holds the output of a real Ready → Plan run on a live account, **anonymized**: name and IDs replaced, dollars and counts scaled by hidden factors. Shares, grades and findings are as the run produced them.
+`samples/` holds output from real runs on two live accounts, **anonymized**: names and IDs replaced, dollars and counts scaled by hidden factors. Hours, shares, grades and findings are as the runs produced them.
 
+**Review: last year's Cyber5 replayed** (account `…0002`)
+- `…-review-….pdf`: the 4-slide post-mortem deck. A Cyber Monday outage is flagged at 03:00, eight hours before spend came back, and Black Friday promo budgets are caught running dry at 21:00.
+- `…-review-….md`: the handoff file, with 6 dated tasks for this year's plan
+
+**Ready → Plan** (account `…0001`)
 - `…-ready-….pdf`: the 4-slide readiness deck
 - `…-plan-….pdf`: the 5-slide plan deck
 - `…-plan-….md`: the handoff file, with 12 dated tasks and the `C5PLAN` block
