@@ -16,16 +16,17 @@ Every number an agency may change lives here. The submitted skill ships with the
 | --- | --- |
 | `weight_signal` | 30 |
 | `weight_catalog` | 20 |
-| `weight_delivery` | 20 |
-| `weight_learning` | 15 |
+| `weight_delivery` | 25 |
+| `weight_learning` | 10 |
 | `weight_audiences` | 15 |
 | `grade_bands` | A 90+, B 80–89, C 70–79, D 60–69, F below 60 |
 | `critical_cap` | C |
 | `points` | Pass 100, Warn 50, Fail 0 |
 | `key_campaign_coverage` | 80% of last-30-day spend, max 8 campaigns |
 | `key_adset_limit` | 10 |
+| `learning_share_pass` / `learning_share_fail` | 35% / 60% of key spend learning or limited (L2) |
 
-Check thresholds (S1–S5, C1–C4, D2–D3, L1–L3, A1–A3) are set in the tables in `stages/01-ready/CONTEXT.md` and may be overridden here by ID, e.g. `S2.pass: 8.5`.
+Learning carries less weight than the other categories because new sale campaigns and ad sets often stay in learning through a five-day window, and that isn't a failure. Check thresholds (S1–S5, C1–C4, D2–D3, L1–L3, A1–A3) are set in the tables in `stages/01-ready/CONTEXT.md` and may be overridden here by ID, e.g. `S2.pass: 8.5`.
 
 ## 01 Ready — do-by dates
 

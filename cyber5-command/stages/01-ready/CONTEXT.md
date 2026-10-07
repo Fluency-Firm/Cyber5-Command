@@ -44,19 +44,23 @@ In D2, deprecated-crop-key and DMA → Comscore notices are informational: list 
 
 | ID | Check | How | Pass | Warn | Fail |
 | --- | --- | --- | --- | --- | --- |
-| L1 | Top ad set learning | `learning_stage_info.status` on the top-spend key ad set, else the fallback in `shared/learning.md` | `SUCCESS` | `LEARNING` | `FAIL` (learning limited) — **critical** |
-| L2 | Learning share | Same, across key ad sets, weighted by 7-day spend | Under 20% of key spend learning or limited | 20–50% | Over 50% |
+| L1 | Top ad set learning | `learning_stage_info.status` on the top-spend key ad set, else the fallback in `shared/learning.md` | `SUCCESS` | `LEARNING` | `FAIL` (learning limited) |
+| L2 | Learning share | Same, across key ad sets, weighted by 7-day spend | Under `learning_share_pass` of key spend learning or limited | `learning_share_pass` to `learning_share_fail` | Over `learning_share_fail` |
 | L3 | Recent significant edits | `last_sig_edit_ts`; `ads_account_get_activity_logs` (`event_category: ad_set`, `object_id` = each key ad set, last 7 days). Significant = targeting, optimization event, bid strategy, creative, or a budget change of `learning_reset_pct` or more | None in 7 days | Any, window more than 7 days away | Any inside the 7 days before the window |
+
+Learning is weighted lightly on purpose: sale campaigns launched for the window often never leave learning in five days, and agencies that pause evergreen ads for sale creative will start the window mostly in learning. Read L1–L2 as a pre-window health check, not a verdict on the sale.
 
 ### Audiences
 
 `ads_get_ad_account_custom_audiences` with no subtype filter, paged with `next_cursor`. Website and engagement audiences come back as subtype `PLATFORM`; identify them by subtype plus name. Use `approximate_count_lower_bound`.
 
+**Grade what the account uses.** Read the key ad sets' `targeting` field (`ads_get_ad_entities`, `level: adset`, `object_ids` = key ad sets, at most 5 per call). Inside it, `custom_audiences` are audiences the ad set targets and `excluded_custom_audiences` are audiences it excludes. A1 counts targeting only; A3 counts both, since a stale exclusion list matters too. Many agencies run broad or Advantage+ audiences and keep warm pools off on purpose, so a missing or inactive audience that no key ad set uses is a note, not a failure.
+
 | ID | Check | How | Pass | Warn | Fail |
 | --- | --- | --- | --- | --- | --- |
-| A1 | Warm pools exist | Active 30-day site visitors and 30-day add-to-cart | Both present and active | One missing | Both missing |
+| A1 | Warm pools exist | Active 30-day site visitors and 30-day add-to-cart | Both present and active | One missing; or both missing and no key ad set targets warm audiences (or targeting couldn't be read), noted "not used in key campaigns" | Both missing while a key ad set targets warm audiences |
 | A2 | Warm pool capacity | From 02 Plan → Warm pool capacity | Expected frequency ≤ `warm_freq_pass` | Up to `warm_freq_fail` | Over `warm_freq_fail` |
-| A3 | Stale audiences | `delivery_status: INACTIVE`, "Not maintained", "Custom audience not available" errors in key campaigns (D2) | None | Inactive exist, none erroring in key campaigns | A key campaign has an audience error |
+| A3 | Stale audiences | `delivery_status: INACTIVE`, "Not maintained", "Custom audience not available" errors in key campaigns (D2) | None in key ad sets' targeting (inactive audiences no key ad set uses are listed as a note, unscored) | A key ad set targets an inactive audience, no error yet | A key campaign has an audience error |
 
 ### Scoring
 
@@ -83,6 +87,10 @@ Do-by dates come from config. Never set one in the past; if it has passed, use "
 ### Meta's own suggestions
 
 `ads_get_opportunity_score`: the score and its top 3 recommendations by points, shown separately and never graded.
+
+### Merged accounts
+
+If C2–C4 show product ID mismatches, the catalog serves several countries, or the user says the account recently merged regions, stores or catalogs, add this caveat: "This account may have merged regions or catalogs recently. Catalog matching and audience checks can read worse than reality until the merge settles; confirm the failing items before fixing them." Grade as normal.
 
 ## Outputs
 
