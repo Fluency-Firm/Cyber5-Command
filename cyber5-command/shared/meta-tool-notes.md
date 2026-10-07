@@ -24,3 +24,9 @@ Found in testing. Load when a call fails or returns something odd.
 | `ads_get_creatives` | On some accounts no non-catalog creative returns `link_url` (ads point at collection pages) | Expect a high Unmapped share; Pass 2 step 6 flags it |
 | Any read | Fails or times out | Retry once, then continue with what loaded and list the gap |
 | Any write | Fails | Mark Failed with the error; never retry on its own |
+
+## Ad set targeting
+
+- `targeting` is an ad-set-level struct (alias `targeting_spec`), not filterable or sortable. Custom audiences sit inside it as `custom_audiences` and `excluded_custom_audiences`, each a list of `{id, name}`; there is no top-level audience field.
+- Each ad set's targeting runs to about 14 KB, so request it only for key ad sets, by `object_ids`, at most 5 per call, with `include_additional_context: false`.
+- Advantage+ shopping ad sets often return no custom audiences at all. That means broad targeting, not a failed read.
