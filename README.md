@@ -60,7 +60,7 @@ cyber5-command/
 │   ├── 00-setup/            L2     account gate, key campaigns, freshness rules
 │   ├── 01-ready/            L2     19 checks, scoring, fix-list dating
 │   ├── 02-plan/             L2     replay → day / daypart / hourly plan
-│   ├── 03-live/             L2     pass 1 pace · pass 2 sold-out spend · pass 3 reroute · approval
+│   ├── 03-live/             L2     pass 1 pace · pass 2 sold-out spend · pass 3 reroute · approval · scheduled
 │   └── 04-review/           L2     simulated-clock post-mortem
 ├── shared/                  L3     replay, catalog, comparison-group, learning engines; Meta tool notes
 ├── contracts/               L4     C5PLAN v2, C5LOG v1, handoff v1
