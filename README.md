@@ -1,10 +1,14 @@
 # Cyber5 Command
 
+[![Skill Overview deck (PDF)](https://img.shields.io/badge/Skill%20Overview-deck%20(PDF)-FF5500?style=for-the-badge)](docs/Cyber5-Command-Skill-Overview.pdf)
+
 **One skill for the whole Cyber5 season, on the Meta Ads MCP alone.** It grades an ad account's readiness, turns last year's Thanksgiving-to-Cyber-Monday window into this year's hour-by-hour plan, paces live spend against that plan, finds money spent on sold-out products, and reviews the window afterwards. It proposes every budget move and makes none until a person says yes.
 
 Built by [Fluency Firm](https://fluencyfirm.com) for Meta's *Build with Meta for Holiday: MCP Skill Pack*.
 
-**New here?** Start with the [Skill Overview deck](docs/Cyber5-Command-Skill-Overview.pdf): what the skill does and how to use it.
+
+[![Cyber5 Command: Skill Overview deck](docs/overview-cover.png)](docs/Cyber5-Command-Skill-Overview.pdf)
+*Click for the full 15-slide overview: what the skill does and how to use it.*
 
 ---
 
