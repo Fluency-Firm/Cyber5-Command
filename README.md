@@ -4,6 +4,8 @@
 
 Built by [Fluency Firm](https://fluencyfirm.com) for Meta's *Build with Meta for Holiday: MCP Skill Pack*.
 
+**New here?** Start with the [Skill Overview deck](docs/Cyber5-Command-Skill-Overview.pdf): what the skill does and how to use it.
+
 ---
 
 ## The four stages
