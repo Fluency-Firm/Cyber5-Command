@@ -13,4 +13,5 @@ The plan is the forecast for days that haven't happened. Hourly data only estima
 9. **Pace status** compares the projected window finish with the window plan: Ahead (over by more than `pace_tolerance`), Behind (under by more than it), On pace. Not started and Stalled override it. Show **today's finish vs today's plan** as a separate column; it is a signal, not the status.
 10. **Efficiency status** with `shared/comparison-groups.md`: Efficient, Marginal, Inefficient.
 11. **Unstable:** hourly spend or results breaking sharply from the entity's own recent hours. Unstable entities can't receive money this check-in. `ads_insights_anomaly_signal` may be added as an extra check.
+11a. **Pace by role.** Sum plan and actual by funnel role. With role targets, any role whose share of window spend is more than `role_drift_flag` from its target goes on the watch list.
 12. **Recheck last moves.** For each receiver in the C5LOG `recheck` line, say whether it held its efficiency after the move. Average ROAS flatters small receivers.

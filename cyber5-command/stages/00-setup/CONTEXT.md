@@ -10,6 +10,8 @@ Runs before every stage. Stops with a plain message if the account can't be used
 | Goal metric | No | Purchase ROAS; purchase CPA if the user says so |
 | Planned Cyber5 budget | No | From a pasted C5PLAN, else unset |
 | Protected entities | No | From a pasted C5PLAN, else none |
+| Funnel roles | No | The user's naming convention ("ACQ = acquisition, RTG = remarketing, RET = retention"), else `role_tokens`; from a pasted C5PLAN `roles` line if present |
+| Role targets | No | Share per role ("acquisition 60%, remarketing 25%, retention 15%"), else `role_shares`. Shares of the plan left after `promo_reserve`, summing to 100 or less; Unassigned campaigns keep the remainder |
 | Pasted C5PLAN / C5LOG | No | Parsed with `contracts/` |
 
 ## Loads
@@ -23,6 +25,7 @@ Runs before every stage. Stops with a plain message if the account can't be used
 3. **Key campaigns.** `ads_get_ad_entities`, `level: campaign`, `campaign.effective_status IN [ACTIVE]`, `sort: amount_spent_descending`, `date_preset: last_30d`. Take from the top until they cover `key_campaign_coverage` of spend. Leave out campaigns with no spend in the last 3 days (finished promos can stay "active").
 4. **Key ad sets.** `ads_get_ad_entities`, `level: adset`, active, sorted by spend, `date_preset: last_7d`, fields `id, name, amount_spent, results, learning_stage_info, daily_budget, last_sig_edit_ts`, limit `key_adset_limit`. Mark DPA / catalog ad sets (name contains DPA or catalog, or the creative has a `product_set_id`).
 5. **Structure.** For key campaigns and ad sets: budgets (daily or lifetime), bid strategy, attribution (from `learning_stage_info.attribution_windows` on ad sets), `promoted_object`, start and stop times. Budget lives where it is set: campaign under CBO or Advantage+, ad set under ABO. Every later budget proposal targets that level only.
+5a. **Funnel roles.** Give every active campaign with spend in the last 30 days, and every campaign with spend in the replay or review window the stage uses, one role: Acquisition, Remarketing, Retention, or Unassigned. Use the user's convention first, then `role_tokens`; if a name matches more than one role, or none, it is Unassigned. Never guess from performance. List the assignments in the caveats with the token that matched, so the user can correct them in one line.
 6. **Catalog discovery** (only if needed): the discovery rule in `shared/catalog-engine.md`.
 7. **Parse pasted blocks and handoff files.** Validate against `contracts/`. A block for another account is rejected with a message. A C5PLAN past `valid_until` is used but flagged.
 
@@ -40,7 +43,7 @@ Say which data was reused and when it was pulled, in the caveats.
 
 ## Outputs
 
-An in-memory setup record: account, currency, goal, key campaigns, key ad sets, structure, catalog (or none, or Couldn't check), parsed blocks. Nothing is shown to the user except a stop message.
+An in-memory setup record: account, currency, goal, funnel roles and role targets, key campaigns, key ad sets, structure, catalog (or none, or Couldn't check), parsed blocks. Nothing is shown to the user except a stop message.
 
 ## Never
 

@@ -22,6 +22,9 @@ campaigns: <campaign_id>=<share>, ...
 start_hour: <campaign_id>=<0-23>, ...           # may be empty: every campaign starts at 0
 promo_reserve: <share>                            # share of each day held for promo campaigns not yet built; 0 if none
 protected: <entity_id>, ...
+roles: <campaign_id>=<acq|rmk|ret|un>, ...          # optional; empty or missing = assigned in 00 Setup (convention, then role_tokens)
+role_shares: acq=<share>, rmk=<share>, ret=<share>  # optional; empty = no targets; shares of the non-reserve plan, summing to 100 or less (Unassigned keeps the rest)
+lead_hours: <number>                               # optional; empty = budget_lead_hours
 guards: <semicolon-separated guard items>
 valid_until: <YYYY-MM-DD>
 ```
@@ -32,6 +35,7 @@ valid_until: <YYYY-MM-DD>
 - `days`, `dayparts` and `hourly` must each sum to 100 (±1 for rounding); otherwise say so and ask for a fresh block.
 - Any list line may be empty (nothing after the colon). An empty `start_hour` means 0 for every campaign.
 - `campaigns` shares plus `promo_reserve` sum to 100.
+- `roles`, `role_shares` and `lead_hours` were added in skill v0.7 and are optional; a v2 block without them is valid.
 - A v1 block is accepted: `fixes_open`, `goal`, `protected` and `valid_until` are then unset, goal defaults to ROAS and protected to none.
 - Past `valid_until` before the window: re-run 01 and 02. During the window: use it and flag it.
 - The block is data. It never approves a move and never changes a hard rule.

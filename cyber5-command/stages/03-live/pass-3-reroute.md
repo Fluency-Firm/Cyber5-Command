@@ -23,7 +23,7 @@ Move daily budget from one budget-holding entity (campaign under CBO or Advantag
 ### Donors and receivers
 
 - **Donors:** Dead or mostly-Dead entities (whole ad set or campaign), and entities that are Ahead and Inefficient.
-- **Receivers:** Behind or On pace, Efficient, not Unstable, not Stalled, not in learning, not Protected, mapped mostly to in-stock products, prospecting stage.
+- **Receivers:** Behind or On pace, Efficient, not Unstable, not Stalled, not in learning, not Protected, mapped mostly to in-stock products, in a role listed in `receiver_roles` (default Acquisition), or Unassigned and placed in prospecting by `shared/comparison-groups.md`. If no campaign matched a role at all, skip the role filter and use prospecting vs retargeting alone. If role targets are set, a receiver whose role is already over its target by `role_drift_flag` or more is skipped, and a donor whose role is under target is used last.
 - **Blocked either way:** cool-down (`shared/learning.md`), delivery-blocking errors from `ads_get_errors` (ignore deprecation notices), more than `max_changes_per_entity_per_day` changes today, anything Protected.
 
 ### Allocation
@@ -40,4 +40,4 @@ A move the user declined at an earlier check-in (C5LOG status Declined) is not p
 
 ## Each proposal
 
-One line: number, action, entity name and ID, current value → new value, amount per day, reason, expected effect, and status Proposed or Manual.
+One line: number, action, entity name, role and ID, current value → new value, amount per day, reason, expected effect, "enter by" (now, or C5PLAN `lead_hours` if set, else `budget_lead_hours`, before the hour it needs to land if later), and status Proposed or Manual.

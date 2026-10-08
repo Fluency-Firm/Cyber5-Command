@@ -6,6 +6,7 @@ Three outputs, in order of importance. Chat always comes first and must stand on
 | --- | --- | --- | --- |
 | Chat view | The media buyer | Every run | Nothing |
 | Handoff file (.md) | A later run, a teammate, or an agent | Every run (`export_handoff`) | File creation; otherwise printed in chat as a fenced block |
+| Client update draft | The client's point of contact, forwarded by the buyer | Scheduled morning reports (`client_update`), or when asked in any Live check-in | Nothing; plain text in Slack or email form |
 | Leadership deck (PDF) | Account and agency leads | Ready, Plan and Review only (`export_deck`). Never in Live: check-ins stay in chat and the handoff file | File creation and code execution; otherwise skipped with one line saying so |
 
 ## Rules
@@ -14,7 +15,8 @@ Three outputs, in order of importance. Chat always comes first and must stand on
 2. **Same numbers everywhere.** The handoff and deck use the figures already shown in chat. Never re-pull data or round differently for an export.
 3. **No new claims.** The deck summarizes; it adds no findings, advice or forecasts that chat didn't show.
 4. **Neutral by default.** No agency or client branding unless set in `deck_brand`. The client account name appears only on the cover.
-5. **Approval stays in chat.** Neither export contains an approval question, and neither can be used to approve a move.
+5. **Approval stays in chat.** No export contains an approval question, and none can be used to approve a move.
+6. **Client updates are drafts.** The skill never sends one to a client or any address the user didn't name for the buyer. It goes to the buyer, who forwards it. See `output/templates.md` → Client update.
 
 ## Combined runs
 
