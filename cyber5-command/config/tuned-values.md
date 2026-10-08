@@ -55,6 +55,31 @@ Learning carries less weight than the other categories because new sale campaign
 | `pre_window_ramp` | 2× pre-season daily spend on a day before the window = early sale start |
 | `promo_share_flag` | 20% of last year's window spend in campaigns with no spend in the last 30 days = ask about promo campaigns |
 
+## Funnel roles
+
+| Name | Default |
+| --- | --- |
+| `role_tokens` | Acquisition: ACQ, prospecting, prospect, PROS, TOF, broad, ASC · Remarketing: RTG, RMKT, remarketing, retarget, RT, MOF, BOF, warm · Retention: RET, RTN, retention, existing, loyalty, customers, CRM. A user-stated convention replaces these. Matched as whole words in campaign names, case-insensitive |
+| `role_shares` | unset (no target per role; campaigns are split by recent spend) |
+| `receiver_roles` | Acquisition (roles whose campaigns may receive money in a Live reroute) |
+| `role_drift_flag` | 5 points (a role's share of window spend this far from its target goes on the watch list) |
+
+## Budget timing
+
+| Name | Default |
+| --- | --- |
+| `budget_lead_hours` | 3 (enter a budget change this many hours before the hour it should take effect). An agency planning buffer for Meta's delivery catching up to a new budget, not a measured Meta figure; set it to your team's experience |
+
+## Scheduled check-ins
+
+| Name | Default |
+| --- | --- |
+| `report_hour` | 07:00 account time, Nov 26 – Dec 1 (the morning after each window day, plus the day before) |
+| `client_update` | on (a client update draft comes with each morning report, delivered to the buyer only) |
+| `client_tone` | neutral (or `formal`, `casual`) |
+| `client_metrics` | spend vs plan, purchases, ROAS (swap in CPA or revenue per client) |
+| `overnight_watch` | Hourly 00:00–08:00 on Black Friday and Cyber Monday; posts only when something is Stalled or Not started |
+
 ## 04 Review
 
 | Name | Default |
@@ -66,7 +91,7 @@ Learning carries less weight than the other categories because new sale campaign
 
 | Name | Default |
 | --- | --- |
-| `export_handoff` | on (every stage, every check-in) |
+| `export_handoff` | on (every stage, every check-in; not the scheduled overnight watch) |
 | `export_deck` | on for Ready, Plan and Review; never in Live |
 | `deck_brand` | neutral (agency logo, colors and font may be set here) |
 

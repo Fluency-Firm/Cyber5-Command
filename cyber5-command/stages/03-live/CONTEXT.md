@@ -10,11 +10,13 @@ Runs during the window, once per check-in. Three read-only passes produce a numb
 | Last check-in | No | A pasted C5LOG from the previous check-in |
 | Protected entities | No | From the C5PLAN, plus any the user names |
 
+In a scheduled or unattended run, follow `scheduled.md` instead of steps 5–6 below.
+
 Outside the window with no plan, run Pass 2 alone (everyday stock hygiene) plus the ad-level part of Pass 3. Pass 1 and budget-level moves need a plan and are skipped; say so in the headline.
 
 ## Loads
 
-`pass-1-pace.md`, `pass-2-dead-spend.md`, `pass-3-reroute.md`, `approval.md` (only after the move list is shown, and only if at least one move is not Manual), `shared/catalog-engine.md`, `shared/comparison-groups.md`, `shared/learning.md`, `contracts/c5plan-v2.md`, `contracts/c5log-v1.md`, `contracts/handoff-v1.md`, `output/exports.md`.
+`pass-1-pace.md`, `pass-2-dead-spend.md`, `pass-3-reroute.md`, `approval.md` (only after the move list is shown, only if at least one move is not Manual, and never in a scheduled or unattended run — hard rule 9), `scheduled.md` (scheduled runs only), `shared/catalog-engine.md`, `shared/comparison-groups.md`, `shared/learning.md`, `contracts/c5plan-v2.md`, `contracts/c5log-v1.md`, `contracts/handoff-v1.md`, `output/exports.md`.
 
 ## Process
 
@@ -25,7 +27,7 @@ Outside the window with no plan, run Pass 2 alone (everyday stock hygiene) plus 
 5. **Show** the headline, burn-down, move list, watch list and caveats (`output/templates.md` → Live), ending with the approval question.
 6. **Approval** — load `approval.md` and follow it exactly. It is the only path to a write.
 7. **Emit C5LOG v1** with every move's final status.
-8. **Handoff file** per `output/exports.md`, every check-in. Live never produces a deck.
+8. **Handoff file** per `output/exports.md`, every check-in except the scheduled overnight watch (`scheduled.md`). Live never produces a deck.
 
 ## Outputs
 

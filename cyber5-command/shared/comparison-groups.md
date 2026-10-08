@@ -2,7 +2,7 @@
 
 Shared by 03 Live (efficiency status, donors and receivers) and 04 Review (the same passes on a past window).
 
-1. Take attribution from the API (`learning_stage_info.attribution_windows` on the ad set), never from the entity name: in testing, names said "7DC1DE" where the API said 7-day click, and "7DC" where it said 7-day click + 1-day view. Group budget-holding entities by that attribution and funnel stage (prospecting vs retargeting). Never compare across groups.
+1. Take attribution from the API (`learning_stage_info.attribution_windows` on the ad set), never from the entity name: in testing, names said "7DC1DE" where the API said 7-day click, and "7DC" where it said 7-day click + 1-day view. Group budget-holding entities by that attribution and funnel stage: Acquisition is prospecting; Remarketing and Retention are retargeting (funnel roles from 00 Setup). Unassigned entities join prospecting only if their ad sets target no custom audiences, else retargeting. Never compare across groups.
 2. Exclude custom attribution; it isn't comparable.
 3. Skip a group with fewer than `min_group_size` members and name it on the watch list.
 4. Efficiency uses the goal metric (ROAS or CPA) on the window so far, at the entity's own attribution setting, leaving out hours with spend under `min_hourly_spend`.
